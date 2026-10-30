@@ -1,26 +1,189 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * DeurbeslagGigant design tokens.
+ * Paper and white surfaces, charcoal ink, and the amber of the logo as the one accent.
+ * Amber is for fills and highlights; use amber-deep when amber has to be readable text on light.
+ */
+@theme {
+  --color-paper: #f4f3ef;
+  --color-surface: #ffffff;
+  --color-stone: #ebe9e3;
+  --color-stone-deep: #dcd9d0;
+  --color-ink: #15171c;
+  --color-ink-soft: #343740;
+  --color-muted: #6a6d75;
+  --color-line: #e3e1da;
+  --color-line-strong: #c9c6bd;
+  --color-amber: #f4a51c;
+  --color-amber-deep: #9a5d00;
+  --color-sand: #fcefd2;
+  --color-ok: #23764a;
+  --color-warn: #b4540f;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --shadow-lift: 0 1px 3px rgb(21 23 28 / 0.06), 0 24px 48px -24px rgb(21 23 28 / 0.28);
+  --shadow-card: 0 1px 2px rgb(21 23 28 / 0.04), 0 8px 24px -12px rgb(21 23 28 / 0.12);
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in: slide-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-marquee: marquee 45s linear infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
   }
 }
 
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Small uppercase label used above headings and in navigation. */
+@utility eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  /* Dutch compounds ("veiligheidsbeslag") would otherwise overflow narrow screens. */
+  hyphens: auto;
+  overflow-wrap: break-word;
+  & em {
+    font-style: normal;
+    color: var(--color-amber-deep);
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* WordPress product descriptions */
+.prose-wp {
+  color: var(--color-ink-soft);
+  line-height: 1.75;
+  font-size: 0.975rem;
+}
+.prose-wp p,
+.prose-wp ul,
+.prose-wp ol {
+  margin-block: 0 1em;
+}
+.prose-wp ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prose-wp ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.prose-wp a {
+  color: var(--color-amber-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-wp strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.prose-wp h2,
+.prose-wp h3,
+.prose-wp h4 {
+  color: var(--color-ink);
+  font-weight: 600;
+  margin-block: 1.4em 0.5em;
+}
+.prose-wp table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 1em;
+  font-size: 0.9rem;
+}
+.prose-wp td,
+.prose-wp th {
+  border-bottom: 1px solid var(--color-line);
+  padding: 0.5rem 0.25rem;
+  text-align: left;
+}
+.prose-wp img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
