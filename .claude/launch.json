@@ -4,9 +4,27 @@
     {
       "name": "deurbeslaggigant",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "--port", "3100"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "3100"
+      ],
       "cwd": "/Users/hirushanperera/Sites/deurbeslaggigant",
       "port": 3100
+    },
+    {
+      "name": "cloudflare-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "opennextjs-cloudflare",
+        "preview",
+        "--port",
+        "8787"
+      ],
+      "cwd": "/Users/hirushanperera/Sites/deurbeslaggigant",
+      "port": 8787
     }
   ]
 }
